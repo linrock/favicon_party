@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.email          = ["linmiao.xu@gmail.com"]
 
   s.summary        = "Fetch favicons from websites and have a blast!"
-  s.description    = "Favicon Party lets you fetch favicons from websites and convert them into other image formats"
+  s.description    = "Fetch favicons from websites and have a blast!"
   s.homepage       = "https://github.com/linrock/favicon_party"
   s.license        = "MIT"
 
