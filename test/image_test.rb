@@ -16,6 +16,7 @@ class ImageTest < Minitest::Test
     filename = "#{File.dirname(__FILE__)}/fixtures/favicons/transparent-16x16.png"
     @image = @klass.new open(filename, "rb").read
     assert @image.mime_type == "image/png"
+    assert @image.transparent? == true
     assert @image.one_color? == true
     assert @image.valid? == false
   end
@@ -34,6 +35,25 @@ class ImageTest < Minitest::Test
     assert %w( image/x-ico image/x-icon ).include? @image.mime_type
     assert @image.one_color? == true
     assert @image.valid? == false
+  end
+
+  def test_svg_mime_type_is_valid
+    filename = "#{File.dirname(__FILE__)}/fixtures/favicons/white-16x16.svg"
+    @image = @klass.new open(filename, "rb").read
+    assert @image.one_color?
+    assert @image.valid_mime_type?
+  end
+
+  def test_base64_png_works
+    filename = "#{File.dirname(__FILE__)}/fixtures/favicons/white-16x16.ico"
+    @image = @klass.new open(filename, "rb").read
+    assert !@image.base64_png.nil?
+  end
+
+  def test_dimensions_returns_correct_dimensions
+    filename = "#{File.dirname(__FILE__)}/fixtures/favicons/white-16x16.ico"
+    @image = @klass.new open(filename, "rb").read
+    assert @image.dimensions == "16x16"
   end
 
 end
