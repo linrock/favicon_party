@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+$:.unshift "./lib"
+
+require 'optparse'
+require 'favicon_party'
+
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: ./fetch_favicon <url>"
+
+  opts.on("--png", "Outputs favicon as a 16x16 png") do
+    options[:format] = :png
+  end
+
+  opts.on("-o", "--output-file FILE", "Saves favicon to FILE") do |output|
+    options[:output] = output
+  end
+
+  opts.on_tail("-h", "--help", "Show this help text") do
+    puts opts
+    exit
+  end
+
+  if ARGV.length == 0
+    puts opts
+    exit
+  end
+
+end.parse!
+
+
+image = FaviconParty.fetch!(ARGV[0])
+case options[:format]
+when :png
+  favicon = image.to_png
+else
+  favicon = image.source_data
+end
+
+
+if options[:output]
+  open(options[:output], "wb").write {|f| f.write favicon }
+else
+  puts favicon
+end
