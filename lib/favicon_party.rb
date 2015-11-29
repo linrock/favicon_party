@@ -11,14 +11,20 @@ module FaviconParty
 
   class << self
 
+    # @return [FaviconParty::Image]
+    #
     def fetch!(url, options = {})
       Fetcher.new(url, options).fetch
     end
 
+    # @return [FaviconParty::Image]
+    #
     def fetch(url)
       fetch!(url) rescue nil
     end
 
+    # @return [FaviconParty::Image]
+    #
     def load(url_or_filename)
       Loader.load url_or_filename
     end

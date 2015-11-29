@@ -8,6 +8,9 @@ module FaviconParty
 
     TIMEOUT = 5
 
+    # For now, wrap command-line curl rather than using net/http or open-uri
+    # because of easier/more reliable SSL handling
+    #
     def curl_cmd(url)
       "curl -sL -k --compressed -m #{TIMEOUT} --ciphers 'RC4,3DES,ALL' --fail --show-error '#{url}'"
     end
