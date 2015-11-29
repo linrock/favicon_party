@@ -33,8 +33,7 @@ module FaviconParty
     end
 
     def fetch
-      set_final_url
-      @html = http_get @final_url
+      @html = http_get final_url
       set_candidate_favicon_urls
       get_favicon_data
     end
@@ -64,12 +63,12 @@ module FaviconParty
       nil
     end
 
-    # Tries to find favicon urls from the html content of given url
+    # Tries to find favicon urls from the html content of query_url
     #
-    def set_candidate_favicon_urls
-      doc = Nokogiri.parse @html
-      @candidate_urls = doc.css(ICON_SELECTORS.join(",")).map {|e| e.attr('href') }.compact
-      @candidate_urls.sort_by! {|href|
+    def find_favicon_urls_in_html(html)
+      doc = Nokogiri.parse html
+      candidate_urls = doc.css(ICON_SELECTORS.join(",")).map {|e| e.attr('href') }.compact
+      candidate_urls.sort_by! {|href|
         if href =~ /\.ico/
           0
         elsif href =~ /\.png/
@@ -78,9 +77,8 @@ module FaviconParty
           2
         end
       }
-      uri = URI @final_url
-      url_root = "#{uri.scheme}://#{uri.host}"
-      @candidate_urls.map! do |href|
+      uri = URI final_url
+      candidate_urls.map! do |href|
         href = URI.encode(href.strip)
         if href =~ /\A\/\//
           href = "#{uri.scheme}:#{href}"
@@ -90,23 +88,28 @@ module FaviconParty
         end
         href
       end.compact
+    end
+
+    def set_candidate_favicon_urls
+      @candidate_urls = find_favicon_urls_in_html(@html)
       @candidate_urls << URI.join(url_root, "favicon.ico").to_s
       @candidate_urls << URI.join(url_root, "favicon.png").to_s
     end
 
     # Follow redirects from the query url to get to the last url
     #
-    def set_final_url
+    def final_url
+      return @final_url if !@final_url.nil?
       output = FaviconParty::HTTPClient.head(@query_url)
-      final = output.scan(/\ALocation: (.*)/)[-1]
-      final_url = final && final[0].strip
-      if !final_url.nil?
-        if final_url =~ /\Ahttp/
-          @final_url = URI.encode final_url
+      final_location = output.scan(/\ALocation: (.*)/)[-1]
+      final = final_location && final_location[0].strip
+      if !final.nil?
+        if final =~ /\Ahttp/
+          @final_url = URI.encode final
         else
           uri = URI @query_url
           root = "#{uri.scheme}://#{uri.host}"
-          @final_url = URI.encode URI.join(root, final_url).to_s
+          @final_url = URI.encode URI.join(root, final).to_s
         end
       end
       if !@final_url.nil?
@@ -117,6 +120,11 @@ module FaviconParty
         return @final_url
       end
       @final_url = @query_url
+    end
+
+    def url_root
+      uri = URI final_url
+      "#{uri.scheme}://#{uri.host}"
     end
 
     def get_favicon_data_from_url(url)
@@ -130,7 +138,7 @@ module FaviconParty
     def get_urls
       {
         :query_url    => @query_url,
-        :final_url    => @final_url,
+        :final_url    => final_url,
         :favicon_url  => @favicon_url
       }
     end
