@@ -17,6 +17,10 @@ module FaviconParty
       fetch!(url) rescue nil
     end
 
+    def load(filename)
+      Image.new open(filename, "rb").read
+    end
+
   end
 
 end

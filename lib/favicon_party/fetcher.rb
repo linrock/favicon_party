@@ -54,7 +54,7 @@ module FaviconParty
             @favicon_url = url
             return data
           end
-        rescue ImageMagickError => error
+        rescue FaviconParty::ImageMagickError => error
           error.meta = get_urls
           error.meta[:favicon_url] ||= url
           error.meta[:base64_favicon_data] = data.base64_source_data

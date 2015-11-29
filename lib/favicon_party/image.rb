@@ -29,13 +29,14 @@ module FaviconParty
       output = stdout.read.strip
       error = stderr.read.strip
       if output.empty? && !error.nil? && !error.empty?
-        raise Favicon::ImageMagickError.new(error)
+        raise FaviconParty::ImageMagickError.new(error)
       end
       output
     end
 
     def mime_type
-      get_mime_type(@source_data)
+      return @mime_type if defined? @mime_type
+      @mime_type = get_mime_type(@source_data)
     end
 
     def identify(verbose = false)
@@ -72,7 +73,7 @@ module FaviconParty
       size >= MAX_FILE_SIZE
     end
 
-    # TODO white-list valid mime-types instead?
+    # TODO white-list valid mime-types instead? (x-icon, png, gif)
     #
     def invalid_mime_type?
       mime_type =~ /(text|html|x-empty|octet-stream|ERROR|zip|jar)/
@@ -116,6 +117,7 @@ module FaviconParty
     end
 
     # number of bytes in the raw data
+    #
     def size
       @source_data && @source_data.size || 0
     end
@@ -125,6 +127,7 @@ module FaviconParty
     end
 
     # Export source_data as a 16x16 png
+    #
     def to_png
       return @png_data if !@png_data.nil?
       with_temp_data_file(@source_data) do |t|
@@ -139,7 +142,7 @@ module FaviconParty
         image_to_convert = images.uniq[0] || "#{t.path.to_s}[0]"
         cmd = "convert -strip -resize 16x16! #{image_to_convert} png:fd:1"
         @png_data = imagemagick_run(cmd, true)
-        raise Favicon::InvalidData.new("Empty png") if @png_data.empty?
+        raise FaviconParty::InvalidData.new("Empty png") if @png_data.empty?
         @png_data
       end
     end
@@ -153,7 +156,7 @@ module FaviconParty
     end
 
     def inspect
-      "#<Favicon::Image @mime_type=#{mime_type}, @size=#{@source_data.nil? ? nil : @source_data.size}>"
+      "#<FaviconParty::Image @mime_type=#{mime_type}, @size=#{@source_data.nil? ? nil : @source_data.size}>"
     end
 
   end
