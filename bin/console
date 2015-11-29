@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "favicon_party"
+
+# require "irb"
+# IRB.start
+
+require "pry"
+Pry.start
