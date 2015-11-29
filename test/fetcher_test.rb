@@ -15,7 +15,7 @@ class FetcherTest < Minitest::Test
   end
 
   def test_fetcher_detects_data_uri_links
-    data_uri = "data:image/png,"
+    data_uri = "data:image/png;base64,"
     assert @fetcher.get_favicon_data_from_url(data_uri) == nil
   end
 

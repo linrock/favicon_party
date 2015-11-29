@@ -15,6 +15,15 @@ module FaviconParty
 
     MAX_FILE_SIZE = 1024 * 1024
 
+    VALID_MIME_TYPES = %w(
+      image/x-ico
+      image/x-icon
+      image/png
+      image/gif
+      image/svg+xml
+      image/jpeg
+    )
+
     attr_accessor :source_data, :png_data, :error
 
     def initialize(source_data)
@@ -53,7 +62,7 @@ module FaviconParty
           "source_data is blank"
         elsif size_too_big?
           "source_data file size too big"
-        elsif invalid_mime_type?
+        elsif !valid_mime_type?
           "source_data mime-type is invalid - #{mime_type}"
         elsif transparent?
           "source_data is a transparent image"
@@ -73,10 +82,14 @@ module FaviconParty
       size >= MAX_FILE_SIZE
     end
 
-    # TODO white-list valid mime-types instead? (x-icon, png, gif)
+    # TODO set an option to decide how mime-type validity is handled
     #
     def invalid_mime_type?
       mime_type =~ /(text|html|x-empty|octet-stream|ERROR|zip|jar)/
+    end
+
+    def valid_mime_type?
+      VALID_MIME_TYPES.include? mime_type
     end
 
     def transparent?
