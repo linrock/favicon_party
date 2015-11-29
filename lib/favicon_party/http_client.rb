@@ -19,12 +19,12 @@ module FaviconParty
       output = encode_utf8(stdout.read).strip
       error = encode_utf8(stderr.read).strip
       if !error.nil? && !error.empty?
-        if err.include? "SSL"
-          raise FaviconParty::Curl::SSLError.new(err)
-        elsif err.include? "Couldn't resolve host"
-          raise FaviconParty::Curl::DNSError.new(err)
+        if error.include? "SSL"
+          raise FaviconParty::Curl::SSLError.new(error)
+        elsif error.include? "Couldn't resolve host"
+          raise FaviconParty::Curl::DNSError.new(error)
         else
-          raise FaviconParty::CurlError.new(err)
+          raise FaviconParty::CurlError.new(error)
         end
       end
       output

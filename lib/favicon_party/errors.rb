@@ -7,7 +7,7 @@ module FaviconParty
     class SSLError < CurlError; end
   end
 
-  class NotFound < StandardError; end
+  class FaviconNotFound < StandardError; end
 
   class Error < StandardError
     attr_accessor :meta

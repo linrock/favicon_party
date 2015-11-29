@@ -41,7 +41,7 @@ module FaviconParty
     def get_favicon_data
       return @data if !@data.nil?
       @data = get_favicon_data_from_candidate_urls
-      raise FaviconParty::NotFound.new(@query_url) unless @data
+      raise FaviconParty::FaviconNotFound.new(@query_url) unless @data
       @data
     end
 

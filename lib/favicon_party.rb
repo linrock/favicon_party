@@ -1,8 +1,10 @@
 require 'favicon_party/utils'
 require 'favicon_party/errors'
 require 'favicon_party/http_client'
-require 'favicon_party/fetcher'
 require 'favicon_party/image'
+require 'favicon_party/fetcher'
+require 'favicon_party/loader'
+require 'favicon_party/version'
 
 
 module FaviconParty
@@ -17,8 +19,8 @@ module FaviconParty
       fetch!(url) rescue nil
     end
 
-    def load(filename)
-      Image.new open(filename, "rb").read
+    def load(url_or_filename)
+      Loader.load url_or_filename
     end
 
   end

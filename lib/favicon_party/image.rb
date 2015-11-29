@@ -156,7 +156,7 @@ module FaviconParty
     end
 
     def inspect
-      "#<FaviconParty::Image @mime_type=#{mime_type}, @size=#{@source_data.nil? ? nil : @source_data.size}>"
+      %(#<FaviconParty::Image mime_type: "#{mime_type}", size: #{size}>)
     end
 
   end
