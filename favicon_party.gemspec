@@ -12,8 +12,8 @@ Gem::Specification.new do |s|
   s.authors        = ["Linmiao Xu"]
   s.email          = ["linmiao.xu@gmail.com"]
 
-  s.summary        = "Fetch favicons from websites and have a blast!"
-  s.description    = "Fetch favicons from websites and have a blast!"
+  s.summary        = "Fetch favicons from webpages and have a blast!"
+  s.description    = "Fetch favicons from webpages and have a blast!"
   s.homepage       = "https://github.com/linrock/favicon_party"
   s.license        = "MIT"
 
