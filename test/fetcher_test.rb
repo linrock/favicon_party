@@ -28,4 +28,11 @@ class FetcherTest < Minitest::Test
     assert @fetcher.get_favicon_data_from_url(data_uri) == image.source_data
   end
 
+  def test_fetcher_finds_location_headers_in_http_response
+    filename = "#{File.dirname(__FILE__)}/fixtures/http_headers/wevorce.com.txt"
+    @fetcher = FaviconParty::Fetcher.new("wevorce.com")
+    location = @fetcher.final_location(open(filename, "r").read)
+    assert location == "https://www.wevorce.com"
+  end
+
 end

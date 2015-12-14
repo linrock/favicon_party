@@ -1,0 +1,35 @@
+HTTP/1.1 303 See Other
+Content-Type: text/html; charset=utf-8
+Connection: keep-alive
+Status: 303 See Other
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Location: https://www.wevorce.com
+Cache-Control: no-cache
+Set-Cookie: request_method=HEAD; path=/
+X-Request-Id: ed843a1e-dbc3-4e2f-ae25-596e41391d4f
+X-Runtime: 0.006208
+X-Powered-By: Phusion Passenger 4.0.53
+Date: Mon, 14 Dec 2015 01:21:42 GMT
+Server: nginx/1.6.2 + Phusion Passenger 4.0.53
+P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+
+HTTP/1.1 200 OK
+Server: Cowboy
+Connection: keep-alive
+Date: Mon, 14 Dec 2015 01:21:42 GMT
+Status: 200 OK
+Strict-Transport-Security: max-age=31536000
+Content-Type: text/html; charset=utf-8
+Content-Length: 43979
+X-Ua-Compatible: IE=Edge,chrome=1
+Etag: "a3ef0ea6d0a8dad4f9e59bbf765000c5"
+Cache-Control: max-age=0, private, must-revalidate
+Set-Cookie: remember_token=; path=/; expires=Mon, 14-Dec-2015 02:21:42 GMT; secure
+Set-Cookie: _wevorce_session=BAh7CEkiD3Nlc3Npb25faWQGOgZFVEkiJWRmZmVjNzFjOWM2ZTM0M2Y4MWI5YTdmNzdjN2FmNjRiBjsAVEkiEF9jc3JmX3Rva2VuBjsARkkiMWpuV3RsUVdNYXozNVVab21XUFBDb2VqQU1mb0hzZWx2bXhzY1BwTDZ1VDA9BjsARkkiFmFuYWx5dGljc19zdGFydGVkBjsARlQ%3D--426d95420320c7ef844c19e07f53ae02df49c050; path=/; secure; HttpOnly
+X-Request-Id: a71f958c-7112-4c1b-981c-48c821a2ba4e
+X-Runtime: 0.068463
+X-Rack-Cache: miss
+Via: 1.1 vegur
+

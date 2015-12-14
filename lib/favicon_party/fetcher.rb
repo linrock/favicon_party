@@ -98,20 +98,23 @@ module FaviconParty
       @candidate_urls << URI.join(url_root, "favicon.png").to_s
     end
 
+    def final_location(response_headers)
+      location = response_headers.scan(/^Location: (.*)$/)[-1]
+      location && location[0].strip
+    end
+
     # Follow redirects from the query url to get to the last url
     #
     def final_url
       return @final_url if !@final_url.nil?
-      output = FaviconParty::HTTPClient.head(@query_url)
-      final_location = output.scan(/\ALocation: (.*)/)[-1]
-      final = final_location && final_location[0].strip
-      if !final.nil?
-        if final =~ /\Ahttp/
-          @final_url = URI.encode final
+      location = final_location(FaviconParty::HTTPClient.head(@query_url))
+      if !location.nil?
+        if location =~ /\Ahttp/
+          @final_url = URI.encode location
         else
           uri = URI @query_url
           root = "#{uri.scheme}://#{uri.host}"
-          @final_url = URI.encode URI.join(root, final).to_s
+          @final_url = URI.encode URI.join(root, location).to_s
         end
       end
       if !@final_url.nil?
