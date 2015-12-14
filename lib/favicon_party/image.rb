@@ -106,7 +106,7 @@ module FaviconParty
     end
 
     def one_color?
-      colors_stdev < STDEV_THRESHOLD
+      n_colors == 1
     end
 
     def colors_stdev
