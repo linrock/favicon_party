@@ -21,6 +21,13 @@ class ImageTest < Minitest::Test
     assert @image.valid? == false
   end
 
+  def test_does_not_detect_jpeg_as_transparent
+    filename = "#{File.dirname(__FILE__)}/fixtures/favicons/specimens/a_jpeg.jpg"
+    @image = @klass.new open(filename, "rb").read
+    assert @image.transparent? == false
+    assert @image.valid? == true
+  end
+
   def test_1x1_gif_is_invalid
     filename = "#{File.dirname(__FILE__)}/fixtures/favicons/transparent-1x1.gif"
     @image = @klass.new open(filename, "rb").read

@@ -97,8 +97,8 @@ module FaviconParty
 
     def transparent?
       with_temp_data_file(@source_data) do |t|
-        cmd = "convert #{t.path.to_s} -channel a -negate -format '%[mean]' info:"
-        imagemagick_run(cmd).to_i == 0
+        cmd = "convert #{t.path.to_s} -format '%[opaque]' info:"
+        imagemagick_run(cmd) != "true"
       end
     end
 
