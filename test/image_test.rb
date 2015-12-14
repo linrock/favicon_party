@@ -52,6 +52,12 @@ class ImageTest < Minitest::Test
     assert @image.valid?(:no_color_check => true)
   end
 
+  def test_x_ms_bmp_is_valid
+    @image = @klass.new read_fixture("favicons/specimens/x-ms-bmp.ico")
+    assert @image.mime_type == "image/x-ms-bmp"
+    assert @image.valid_mime_type?
+  end
+
   def test_base64_png_works
     @image = @klass.new read_fixture("favicons/white-16x16.ico")
     assert !@image.base64_png.nil?

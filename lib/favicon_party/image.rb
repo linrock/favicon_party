@@ -23,6 +23,7 @@ module FaviconParty
       image/gif
       image/svg+xml
       image/jpeg
+      image/x-ms-bmp
     )
 
     attr_accessor :source_data, :png_data, :error
