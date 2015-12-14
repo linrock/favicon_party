@@ -57,20 +57,22 @@ module FaviconParty
 
     # Does the data look like a valid favicon?
     #
-    def valid?
+    def valid?(options = {})
       @error =
         if blank?
           "source_data is blank"
-        elsif size_too_big?
-          "source_data file size too big"
         elsif !valid_mime_type?
           "source_data mime-type is invalid - #{mime_type}"
-        elsif transparent?
-          "source_data is a transparent image"
         elsif one_pixel?
           "source_data is a 1x1 image"
-        elsif one_color?
-          "png_data is one color (or close to it)"
+        elsif size_too_big?
+          "source_data file size too big"
+        elsif !options[:no_color_check]
+          if transparent?
+            "source_data is a transparent image"
+          elsif one_color?
+            "png_data is one color (or close to it)"
+          end
         end
       @error.nil?
     end

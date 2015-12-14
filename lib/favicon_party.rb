@@ -19,8 +19,8 @@ module FaviconParty
 
     # @return [FaviconParty::Image]
     #
-    def fetch(url)
-      fetch!(url) rescue nil
+    def fetch(url, options = {})
+      fetch!(url, options) rescue nil
     end
 
     # @return [FaviconParty::Image]

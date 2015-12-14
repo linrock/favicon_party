@@ -19,6 +19,7 @@ module FaviconParty
     attr_accessor :query_url, :final_url, :favicon_url, :candidate_urls, :html, :data
 
     def initialize(url, options = {})
+      @options         = options
       @query_url       = prefix_url(url)
       @final_url       = nil
       @favicon_url     = nil
@@ -50,7 +51,7 @@ module FaviconParty
       @candidate_urls.each do |url|
         data = FaviconParty::Image.new(get_favicon_data_from_url(url))
         begin
-          if data.valid?
+          if data.valid?(@options)
             @favicon_url = url
             return data
           end
