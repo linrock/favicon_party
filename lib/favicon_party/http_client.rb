@@ -41,7 +41,7 @@ module FaviconParty
     end
 
     def build_curl_cmd(url, flags = "")
-      "curl #{curl_shared_flags} #{flags} '#{prefix_url(url)}'"
+      "curl #{curl_shared_flags} #{flags} '#{prefix_url(url, :downcase => false)}'"
     end
 
     def curl_get_cmd(url)

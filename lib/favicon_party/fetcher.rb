@@ -88,7 +88,7 @@ module FaviconParty
           href = URI.join(url_root, href).to_s rescue nil
         end
         href
-      end.compact
+      end.compact.uniq
     end
 
     def set_candidate_favicon_urls
