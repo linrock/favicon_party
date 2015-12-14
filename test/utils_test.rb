@@ -44,4 +44,10 @@ class UtilsTest < Minitest::Test
     assert encode_utf8(string).valid_encoding?
   end
 
+  def test_prefix_url_does_not_reencode_encoded_url
+    url = "http://cdn6.bigcommerce.com/s-xe95b6v/product_images/Beep_SocialMedia_1%20(2).jpg"
+    assert URI.decode(url) != url
+    assert prefix_url(url, :downcase => false) == url
+  end
+
 end

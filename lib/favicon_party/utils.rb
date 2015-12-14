@@ -8,9 +8,9 @@ module FaviconParty
 
     def prefix_url(url, options = {})
       unless options[:downcase] == false
-        url = URI.encode url.strip.downcase
+        url = URI.encode URI.decode(url.strip.downcase)
       else
-        url = URI.encode url.strip
+        url = URI.encode URI.decode(url.strip)
       end
       if url =~ /https?:\/\//
         url
