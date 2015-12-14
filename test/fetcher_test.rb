@@ -17,21 +17,20 @@ class FetcherTest < Minitest::Test
   end
 
   def test_fetcher_finds_favicon_urls_in_html
-    html = open("#{File.dirname(__FILE__)}/fixtures/html/page1.html").read
+    html = read_fixture("html/page1.html")
     assert @fetcher.find_favicon_urls_in_html(html).length == 1
   end
 
   def test_fetcher_decodes_base64_data_uri_links
-    filename = "#{File.dirname(__FILE__)}/fixtures/favicons/transparent-16x16.png"
-    image = FaviconParty::Image.new(open(filename, "rb").read)
+    data = read_fixture("favicons/transparent-16x16.png", "rb")
+    image = FaviconParty::Image.new(data)
     data_uri = "data:image/png;base64,#{image.base64_png}"
     assert @fetcher.get_favicon_data_from_url(data_uri) == image.source_data
   end
 
   def test_fetcher_finds_location_headers_in_http_response
-    filename = "#{File.dirname(__FILE__)}/fixtures/http_headers/wevorce.com.txt"
     @fetcher = FaviconParty::Fetcher.new("wevorce.com")
-    location = @fetcher.final_location(open(filename, "r").read)
+    location = @fetcher.final_location(read_fixture("http_headers/wevorce.com.txt"))
     assert location == "https://www.wevorce.com"
   end
 
