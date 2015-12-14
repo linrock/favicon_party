@@ -81,7 +81,7 @@ module FaviconParty
       }
       uri = URI final_url
       candidate_urls.map! do |href|
-        href = URI.encode(href.strip)
+        href = URI.encode(URI.decode(href.strip))
         if href =~ /\A\/\//
           href = "#{uri.scheme}:#{href}"
         elsif href !~ /\Ahttp/

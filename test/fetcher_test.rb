@@ -18,7 +18,13 @@ class FetcherTest < Minitest::Test
 
   def test_fetcher_finds_favicon_urls_in_html
     html = read_fixture("html/page1.html")
-    assert @fetcher.find_favicon_urls_in_html(html).length == 1
+    assert @fetcher.find_favicon_urls_in_html(html).length == 2
+  end
+
+  def test_fetcher_does_not_url_encode_already_encoded_urls
+    html = read_fixture("html/page1.html")
+    url = @fetcher.find_favicon_urls_in_html(html)[1]
+    assert url !~ /%2520/
   end
 
   def test_fetcher_decodes_base64_data_uri_links
