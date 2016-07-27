@@ -55,7 +55,7 @@ module FaviconParty
     private
 
     def curl_shared_flags
-      "-sL -k -m #{TIMEOUT} --ciphers 'RC4,3DES,ALL'"
+      "-sL -m #{TIMEOUT} --ciphers 'RC4,3DES,ALL'"
     end
 
     extend self
