@@ -1,6 +1,5 @@
 require 'test_helper'
 
-
 class HTTPClientTest < Minitest::Test
   include FaviconParty::Utils
 
@@ -31,5 +30,4 @@ class HTTPClientTest < Minitest::Test
     cmd = @http_client.curl_head_cmd(url)
     assert cmd.include?(prefix_url(url))
   end
-
 end

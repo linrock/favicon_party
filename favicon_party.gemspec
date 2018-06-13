@@ -27,5 +27,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "minitest-reporters", "~> 1.1"
   s.add_development_dependency "pry",                "~> 0.10"
 
-  s.add_dependency "nokogiri", "~> 1.6"
+  s.add_dependency "nokogiri", "~> 1.8"
 end

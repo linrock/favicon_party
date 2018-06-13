@@ -1,6 +1,5 @@
 require 'test_helper'
 
-
 class UtilsTest < Minitest::Test
   include FaviconParty::Utils
 
@@ -49,5 +48,4 @@ class UtilsTest < Minitest::Test
     assert URI.decode(url) != url
     assert prefix_url(url, :downcase => false) == url
   end
-
 end

@@ -69,9 +69,7 @@ module FaviconParty
         elsif size_too_big?
           "source_data file size too big"
         elsif !options[:no_color_check]
-          if transparent?
-            "source_data is a transparent image"
-          elsif one_color?
+          if one_color?
             "png_data is one color (or close to it)"
           end
         end
@@ -94,13 +92,6 @@ module FaviconParty
 
     def valid_mime_type?
       VALID_MIME_TYPES.include? mime_type
-    end
-
-    def transparent?
-      with_temp_data_file(@source_data) do |t|
-        cmd = "convert #{t.path.to_s} -format '%[opaque]' info:"
-        imagemagick_run(cmd) != "true"
-      end
     end
 
     def one_pixel?

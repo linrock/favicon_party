@@ -1,6 +1,5 @@
 require 'test_helper'
 
-
 class LoaderTest < Minitest::Test
 
   def setup
@@ -12,5 +11,4 @@ class LoaderTest < Minitest::Test
     image = @klass.load filename
     assert image.class == FaviconParty::Image
   end
-
 end
