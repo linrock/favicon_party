@@ -43,6 +43,6 @@ class ImageTest < Minitest::Test
 
   def test_dimensions_returns_correct_dimensions
     @image = @klass.new read_fixture("favicons/white-16x16.ico")
-    assert @image.dimensions == "16x16"
+    assert @image.dimensions.join("x") == "16x16"
   end
 end

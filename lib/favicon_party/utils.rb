@@ -1,11 +1,8 @@
 require 'uri'
 require 'tempfile'
 
-
 module FaviconParty
-  
   module Utils
-
     def prefix_url(url, options = {})
       unless options[:downcase] == false
         url = URI.encode URI.decode(url.strip.downcase)
@@ -47,5 +44,4 @@ module FaviconParty
 
     extend self
   end
-
 end

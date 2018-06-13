@@ -34,17 +34,6 @@ module FaviconParty
       @error = nil
     end
 
-    def imagemagick_run(cmd, binmode = false)
-      stdin, stdout, stderr, t = Open3.popen3(cmd)
-      stdout.binmode if binmode
-      output = stdout.read.strip
-      error = stderr.read.strip
-      if output.empty? && !error.nil? && !error.empty?
-        raise FaviconParty::ImageMagickError.new(error)
-      end
-      output
-    end
-
     def mime_type
       return @mime_type if defined? @mime_type
       @mime_type = get_mime_type(@source_data)
@@ -99,7 +88,7 @@ module FaviconParty
 
     # ex. 16x16
     def dimensions
-      minimagick_image.dimensions.join("x")
+      minimagick_image.dimensions
     end
 
     # number of bytes in the raw data
@@ -109,7 +98,7 @@ module FaviconParty
     end
 
     def info_str
-      "#{mime_type}, #{dimensions}, #{size} bytes"
+      "#{mime_type}, #{dimensions.join("x")}, #{size} bytes"
     end
 
     # Export source_data as a 16x16 png

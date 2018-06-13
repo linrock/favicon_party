@@ -26,14 +26,12 @@ class FetcherTest < Minitest::Test
     assert url !~ /%2520/
   end
 
-=begin
   def test_fetcher_decodes_base64_data_uri_links
     data = read_fixture("favicons/specimens/not_transparent.png", "rb")
     image = FaviconParty::Image.new(data)
     data_uri = "data:image/png;base64,#{image.base64_png}"
     assert @fetcher.get_favicon_data_from_url(data_uri) == image.source_data
   end
-=end
 
   def test_fetcher_finds_location_headers_in_http_response
     @fetcher = FaviconParty::Fetcher.new("wevorce.com")
