@@ -1,6 +1,6 @@
 require 'base64'
 require 'open3'
-
+require 'mini_magick'
 
 module FaviconParty
 
@@ -51,8 +51,10 @@ module FaviconParty
     end
 
     def identify(verbose = false)
-      with_temp_data_file(@source_data) do |t|
-        imagemagick_run("identify #{"-verbose" if verbose} #{t.path.to_s}")
+      if verbose
+        minimagick_image.identify "verbose"
+      else
+        minimagick_image.identify
       end
     end
 
@@ -68,10 +70,6 @@ module FaviconParty
           "source_data is a 1x1 image"
         elsif size_too_big?
           "source_data file size too big"
-        elsif !options[:no_color_check]
-          if one_color?
-            "png_data is one color (or close to it)"
-          end
         end
       @error.nil?
     end
@@ -99,29 +97,9 @@ module FaviconParty
       files.length == 1 && files[0].include?(" 1x1 ")
     end
 
-    def one_color?
-      n_colors == 1
-    end
-
-    def colors_stdev
-      with_temp_data_file(to_png) do |t|
-        cmd = "identify -format '%[fx:image.standard_deviation]' #{t.path.to_s}"
-        imagemagick_run(cmd).to_f
-      end
-    end
-
-    def n_colors
-      with_temp_data_file(@source_data) do |t|
-        cmd = "identify -format '%k' #{t.path.to_s}"
-        imagemagick_run(cmd).to_i
-      end
-    end
-
+    # ex. 16x16
     def dimensions
-      with_temp_data_file(@source_data) do |t|
-        cmd = "convert #{t.path.to_s}[0] -format '%wx%h' info:"
-        imagemagick_run(cmd)
-      end
+      minimagick_image.dimensions.join("x")
     end
 
     # number of bytes in the raw data
@@ -138,21 +116,13 @@ module FaviconParty
     #
     def to_png
       return @png_data if !@png_data.nil?
-      with_temp_data_file(@source_data) do |t|
-        sizes = imagemagick_run("identify #{t.path.to_s}").split(/\n/)
-        images = []
-        %w(16x16 32x32 64x64).each do |dims|
-          %w(32-bit 24-bit 16-bit 8-bit).each do |bd|
-            images += sizes.select {|x| x.include?(dims) and x.include?(bd) }.
-                           map     {|x| x.split(' ')[0] }
-          end
-        end
-        image_to_convert = images.uniq[0] || "#{t.path.to_s}[0]"
-        cmd = "convert -strip -resize 16x16! #{image_to_convert} png:fd:1"
-        @png_data = imagemagick_run(cmd, true)
-        raise FaviconParty::InvalidData.new("Empty png") if @png_data.empty?
-        @png_data
-      end
+      image = minimagick_image
+      image.resize '16x16!'
+      image.format 'png'
+      image.strip
+      @png_data = image.to_blob
+      raise FaviconParty::InvalidData.new("Empty png") if @png_data.empty?
+      @png_data
     end
 
     def base64_source_data
@@ -163,10 +133,12 @@ module FaviconParty
       Base64.encode64(to_png).split(/\s+/).join
     end
 
+    def minimagick_image
+      @minimagick_image ||= MiniMagick::Image.read(@source_data, '.ico')
+    end
+
     def inspect
       %(#<FaviconParty::Image mime_type: "#{mime_type}", size: #{size}>)
     end
-
   end
-
 end

@@ -28,4 +28,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry",                "~> 0.10"
 
   s.add_dependency "nokogiri", "~> 1.8"
+  s.add_dependency "mini_magick", "~> 4.8"
 end
