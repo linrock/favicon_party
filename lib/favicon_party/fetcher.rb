@@ -1,5 +1,6 @@
 require 'base64'
 require 'nokogiri'
+require 'webrick'
 
 
 module FaviconParty
@@ -81,7 +82,7 @@ module FaviconParty
       }
       uri = URI final_url
       candidate_urls.map! do |href|
-        href = URI.encode(URI.decode(href.strip))
+        href = WEBrick::HTTPUtils.escape(WEBrick::HTTPUtils.unescape(href.strip))
         if href =~ /\A\/\//
           href = "#{uri.scheme}:#{href}"
         elsif href !~ /\Ahttp/
@@ -110,11 +111,11 @@ module FaviconParty
       location = final_location(FaviconParty::HTTPClient.head(@query_url))
       if !location.nil?
         if location =~ /\Ahttp/
-          @final_url = URI.encode location
+          @final_url = WEBrick::HTTPUtils.escape location
         else
           uri = URI @query_url
           root = "#{uri.scheme}://#{uri.host}"
-          @final_url = URI.encode URI.join(root, location).to_s
+          @final_url = WEBrick::HTTPUtils.escape URI.join(root, location).to_s
         end
       end
       if !@final_url.nil?
