@@ -1,13 +1,13 @@
-require 'uri'
 require 'tempfile'
+require 'webrick'
 
 module FaviconParty
   module Utils
     def prefix_url(url, options = {})
       unless options[:downcase] == false
-        url = URI.encode URI.decode(url.strip.downcase)
+        url = WEBrick::HTTPUtils.escape WEBrick::HTTPUtils.unescape(url.strip.downcase)
       else
-        url = URI.encode URI.decode(url.strip)
+        url = WEBrick::HTTPUtils.escape WEBrick::HTTPUtils.unescape(url.strip)
       end
       if url =~ /https?:\/\//
         url
