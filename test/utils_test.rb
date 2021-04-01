@@ -15,7 +15,7 @@ class UtilsTest < Minitest::Test
 
   def test_get_mime_type_detects_ico_correctly
     data = read_fixture("favicons/white-16x16.ico", "rb")
-    assert %w( image/x-ico image/x-icon ).include? get_mime_type(data)
+    assert %w( image/x-ico image/x-icon image/vnd.microsoft.icon ).include? get_mime_type(data)
   end
 
   def test_get_mime_type_detects_svg_correctly

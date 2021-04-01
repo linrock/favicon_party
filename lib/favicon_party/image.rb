@@ -24,6 +24,8 @@ module FaviconParty
       image/svg+xml
       image/jpeg
       image/x-ms-bmp
+      image/bmp
+      image/vnd.microsoft.icon
     )
 
     attr_accessor :source_data, :png_data, :error
