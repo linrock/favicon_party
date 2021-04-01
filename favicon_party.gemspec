@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "minitest-reporters", "~> 1.4"
   s.add_development_dependency "pry",                "~> 0.14"
 
+  s.add_dependency "webrick", "~> 1.7"
   s.add_dependency "nokogiri", "~> 1.11"
   s.add_dependency "mini_magick", "~> 4.11"
 end
